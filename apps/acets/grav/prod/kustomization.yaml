@@ -1,0 +1,32 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namePrefix: acets-
+
+resources:
+  - ../../../../bases/grav
+
+patches:
+  - target:
+      kind: Ingress
+      name: grav-ingress
+    patch: |-
+      - op: replace
+        path: /spec/rules/0/host
+        value: acets.prodv2.cedille.club
+      - op: replace
+        path: /spec/tls/0/hosts/0
+        value: acets.prodv2.cedille.club
+      - op: replace
+        path: /metadata/annotations/cert-manager.io~1cluster-issuer
+        value: letsencrypt-prod
+  - target:
+      kind: Deployment
+      name: grav
+    patch: |-
+      - op: replace
+        path: /spec/template/spec/containers/0/image
+        value: ghcr.io/clubcedille/grav:acets
+      - op: replace
+        path: /spec/template/spec/containers/0/env/0/value
+        value: master

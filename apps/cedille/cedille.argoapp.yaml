@@ -1,0 +1,24 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: cedille
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
+    argocd-image-updater.argoproj.io/image-list: webapp=ghcr.io/clubcedille/cedille.etsmtl.ca:latest
+    argocd-image-updater.argoproj.io/webapp.update-strategy: digest
+spec:
+  project: default
+  destination:
+    server: https://cedille.kubernetes.omni.siderolabs.io?cluster=k8s-cedille-production-v2
+    namespace: cedille
+  source:
+    repoURL: https://github.com/ClubCedille/k8s-cedille-production-v2
+    path: apps/cedille/prod
+    targetRevision: HEAD
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+    automated:
+      selfHeal: false
+      prune: false

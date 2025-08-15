@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: synapsets-web
+  annotations:
+    kube-score/ignore: pod-networkpolicy,container-image-tag
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: synapsets-web
+  template:
+    metadata:
+      labels:
+        app: synapsets-web
+    spec:
+      containers:
+        - name: synapsets-web
+          image: clubcedille/synapsets.etsmtl.ca
+          imagePullPolicy: Always
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 30
+            periodSeconds: 10
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "100m"
+              ephemeral-storage: 256Mi
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
+          ports:
+            - containerPort: 80

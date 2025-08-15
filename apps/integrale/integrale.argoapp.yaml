@@ -1,0 +1,21 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: integrale-website
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
+    argocd-image-updater.argoproj.io/image-list: website=ghcr.io/integrale-ets/site-integrale:latest
+    argocd-image-updater.argoproj.io/website.update-strategy: digest
+spec:
+  project: default
+  destination:
+    server: https://cedille.kubernetes.omni.siderolabs.io?cluster=k8s-cedille-production-v2
+    namespace: integrale-website
+  source:
+    repoURL: https://github.com/ClubCedille/k8s-cedille-production-v2
+    path: apps/integrale/prod
+    targetRevision: HEAD
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
