@@ -1,0 +1,29 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: markets
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
+    argocd-image-updater.argoproj.io/image-list: backend=ghcr.io/algoets/markets-backend:latest,frontend=ghcr.io/algoets/markets-frontend:latest,scheduler=ghcr.io/algoets/markets-scheduler:latest
+    argocd-image-updater.argoproj.io/backend.update-strategy: digest
+    argocd-image-updater.argoproj.io/frontend.update-strategy: digest
+    argocd-image-updater.argoproj.io/scheduler.update-strategy: digest
+    argocd-image-updater.argoproj.io/backend.pull-secret: pullsecret:argocd/ghcr-markets-secret
+    argocd-image-updater.argoproj.io/frontend.pull-secret: pullsecret:argocd/ghcr-markets-secret
+    argocd-image-updater.argoproj.io/scheduler.pull-secret: pullsecret:argocd/ghcr-markets-secret
+spec:
+  project: default
+  destination:
+    server: https://cedille.kubernetes.omni.siderolabs.io?cluster=k8s-cedille-production-v2
+    namespace: markets
+  source:
+    repoURL: https://github.com/ClubCedille/k8s-cedille-production-v2
+    path: apps/markets/prod
+    targetRevision: HEAD
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+    automated:
+      selfHeal: false
+      prune: false
