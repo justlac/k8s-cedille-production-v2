@@ -19,5 +19,5 @@ spec:
       - CreateNamespace=true
       - Replace=true
     automated:
-      selfHeal: false
-      prune: false
+      selfHeal: true
+      prune: true
