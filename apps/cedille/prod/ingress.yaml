@@ -29,17 +29,17 @@ kind: Ingress
 metadata:
   name: cedille-prod
   annotations:
-    cert-manager.io/cluster-issuer: letsencrypt-http
+    cert-manager.io/cluster-issuer: letsencrypt-prod
     ingress.kubernetes.io/force-ssl-redirect: "true"
     kubernetes.io/tls-acme: "true"
 spec:
   ingressClassName: contour
   tls:
     - hosts:
-        - cedille.etsmtl.ca
+        - cedille.prodv2.cedille.club
       secretName: cedille-cert-tls-prod
   rules:
-    - host: cedille.etsmtl.ca
+    - host: cedille.prodv2.cedille.club
       http:
         paths:
           - path: /
