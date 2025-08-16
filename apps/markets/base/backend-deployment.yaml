@@ -54,7 +54,7 @@ spec:
           #   seccompProfile:
           #     type: RuntimeDefault
       imagePullSecrets:
-        - name: ghcr-secret
+        - name: ghcr-markets-secret
       # volumes:
       #   - name: logs-temp
       #     emptyDir: {}
@@ -93,4 +93,4 @@ spec:
               memory: "800Mi"
               ephemeral-storage: 1Gi
       imagePullSecrets:
-        - name: ghcr-secret
+        - name: ghcr-markets-secret
