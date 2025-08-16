@@ -8,7 +8,7 @@ metadata:
     argocd-image-updater.argoproj.io/webapp.update-strategy: digest
     argocd-image-updater.argoproj.io/webapp.pull-secret: pullsecret:argocd/ghcr-ingenieuses-secret
 spec:
-  project: default
+  project: k8s-cedille-production-v2
   destination:
     server: https://cedille.kubernetes.omni.siderolabs.io?cluster=k8s-cedille-production-v2
     namespace: ingenieuses
