@@ -39,12 +39,7 @@ spec:
           ports:
             - containerPort: 3000
           command:
-            ['/bin/sh', '-c', '/calidum_rotae_service --port 3000 \\
-            --email_provider_hostname email-provider-service --email_provider_port 4000 \\
-            --discord_provider_hostname discord-provider-service --discord_provider_port 5000 \\
-            --shell_provider_hostname shell-provider-service --shell_provider_port 6000 \\
-            --otel_otlp_exporter_host k8s-cedille-production-coroot-ce-coroot.coroot.svc.cluster.local --otel_otlp_exporter_port 8080 \\
-            --allowed_domains "http://localhost,http://localhost:3000,https://*.cedille.club,https://*.etsmtl.ca"']
+            ['/bin/sh', '-c', '/calidum_rotae_service --port 3000 --email_provider_hostname email-provider-service --email_provider_port 4000 --discord_provider_hostname discord-provider-service --discord_provider_port 5000 --shell_provider_hostname shell-provider-service --shell_provider_port 6000 --otel_otlp_exporter_host k8s-cedille-production-v2-coroot-ce-coroot.coroot.svc.cluster.local --otel_otlp_exporter_port 8080 --allowed_domains "http://localhost,http://localhost:3000,https://*.cedille.club,https://*.etsmtl.ca"']
           readinessProbe:
             tcpSocket:
               port: 3000
