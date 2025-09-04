@@ -12,7 +12,6 @@ spec:
     - secretName: campusparent-tls
       hosts:
         - campusparent.prodv2.cedille.club
-        - www.campusparent.prodv2.cedille.club
   rules:
     - host: campusparent.prodv2.cedille.club
       http:
@@ -23,14 +22,4 @@ spec:
               service:
                 name: campusparent-svc
                 port:
-                  number: 80
-    - host: www.campusparent.prodv2.cedille.club
-      http:
-        paths:
-          - pathType: Prefix
-            path: /
-            backend:
-              service:
-                name: campusparent-svc
-                port:
-                  number: 80
+                  number: 3000

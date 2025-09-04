@@ -28,7 +28,7 @@ spec:
           readinessProbe:
             httpGet:
               path: /
-              port: 80
+              port: 3000
             initialDelaySeconds: 30
             periodSeconds: 10
           volumeMounts:
@@ -37,7 +37,7 @@ spec:
             - name: nginx-run
               mountPath: /run
           ports:
-            - containerPort: 80
+            - containerPort: 3000
           resources:
             requests:
               cpu: 100m
