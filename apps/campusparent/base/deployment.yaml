@@ -23,7 +23,7 @@ spec:
           emptyDir: {}
       containers:
         - name: campusparent
-          image: ghcr.io/campusparent-aufets/campusparent:1.0.0
+          image: ghcr.io/campusparent-aufets/campusparent:1.0.1
           imagePullPolicy: Always
           readinessProbe:
             httpGet:
