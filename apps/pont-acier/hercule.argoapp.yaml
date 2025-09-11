@@ -10,7 +10,7 @@ spec:
   project: k8s-cedille-production-v2
   destination:
     server: https://cedille.kubernetes.omni.siderolabs.io?cluster=k8s-cedille-production-v2
-    namespace: hercule
+    namespace: pont-acier
   source:
     repoURL: https://github.com/ClubCedille/k8s-cedille-production-v2
     path: apps/pont-acier/prod
