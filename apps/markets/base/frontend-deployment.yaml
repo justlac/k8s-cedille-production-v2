@@ -41,15 +41,12 @@ spec:
             runAsUser: 10001
             runAsGroup: 10001
             allowPrivilegeEscalation: false
-            readOnlyRootFilesystem: true
             capabilities:
               drop:
                 - ALL
             seccompProfile:
               type: RuntimeDefault
           volumeMounts:
-            - name: html
-              mountPath: /usr/share/nginx/html
             - name: nginx-cache
               mountPath: /var/cache/nginx
             - name: nginx-temp
@@ -57,8 +54,6 @@ spec:
             - name: nginx-log
               mountPath: /var/log/nginx
       volumes:
-        - name: html
-          emptyDir: {}
         - name: nginx-cache
           emptyDir: {}
         - name: nginx-temp
