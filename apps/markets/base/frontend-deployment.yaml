@@ -14,6 +14,16 @@ spec:
       labels:
         app: markets-frontend
     spec:
+      initContainers:
+        - name: chown
+          image: ghcr.io/algoets/markets-frontend:latest
+          command: ["sh", "-c", "chown -R 10001:10001 /usr/share/nginx/html"]
+          securityContext:
+            runAsUser: 0
+            runAsGroup: 0
+            allowPrivilegeEscalation: false
+            seccompProfile:
+              type: RuntimeDefault
       containers:
         - name: frontend
           image: ghcr.io/algoets/markets-frontend:latest
