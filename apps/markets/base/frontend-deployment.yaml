@@ -37,11 +37,6 @@ spec:
               port: 80
             initialDelaySeconds: 30
             periodSeconds: 10
-            capabilities:
-              drop:
-                - ALL
-            seccompProfile:
-              type: RuntimeDefault
           volumeMounts:
             - name: nginx-cache
               mountPath: /var/cache/nginx
