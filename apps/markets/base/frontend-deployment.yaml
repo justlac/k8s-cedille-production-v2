@@ -37,16 +37,6 @@ spec:
               port: 80
             initialDelaySeconds: 30
             periodSeconds: 10
-          securityContext:
-            runAsUser: 10001
-            runAsGroup: 10001
-            allowPrivilegeEscalation: false
-            readOnlyRootFilesystem: true
-            capabilities:
-              drop:
-                - ALL
-            seccompProfile:
-              type: RuntimeDefault
           volumeMounts:
             - name: nginx-cache
               mountPath: /var/cache/nginx
