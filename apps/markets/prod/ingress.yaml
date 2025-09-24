@@ -44,13 +44,6 @@ spec:
                 name: markets-backend-service
                 port:
                   number: 80
-          - path: /static/admin
-            pathType: Prefix
-            backend:
-              service:
-                name: markets-backend-service
-                port:
-                  number: 80
           - path: /static
             pathType: Prefix
             backend:
