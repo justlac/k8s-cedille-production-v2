@@ -11,9 +11,9 @@ spec:
   tls:
     - secretName: trema-tls
       hosts:
-        - trema.prod.cedille.club
+        - trema.prodv2.cedille.club
   rules:
-    - host: trema.prod.cedille.club
+    - host: trema.prodv2.cedille.club
       http:
         paths:
           - pathType: Prefix
