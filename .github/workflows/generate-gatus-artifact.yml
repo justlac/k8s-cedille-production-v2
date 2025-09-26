@@ -1,0 +1,50 @@
+name: Generate Gatus Monitoring Config Artifact
+
+on:
+    push:
+        branches: ["main", "master"]
+        paths:
+            - "apps/**" # Only run if app configs change
+
+jobs:
+    generate-config-artifact:
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v4
+s
+            - name: Set up Python 3.11
+              uses: actions/setup-python@v4
+              with:
+                  python-version: "3.11"
+
+            - name: Install dependencies
+              run: pip install pyyaml
+
+            - name: Generate Gatus endpoints snippet
+              run: python3 .github/scripts/extract_fqdns.py
+
+            - name: Rename snippet file for uniqueness
+              run: mv gatus-endpoints.yml ${{ github.event.repository.name }}.yml
+
+            - name: Add metadata to config file
+              run: |
+                  echo "# Source: ${{ github.repository }}" >> ${{ github.event.repository.name }}.yml
+                  echo "# Generated: $(date -u +%Y-%m-%dT%H:%M:%SZ)" >> ${{ github.event.repository.name }}.yml
+                  echo "# Commit: ${{ github.sha }}" >> ${{ github.event.repository.name }}.yml
+
+            - name: Display generated config
+              run: |
+                  echo "=== Generated ${{ github.event.repository.name }}.yml ==="
+                  cat ${{ github.event.repository.name }}.yml
+                  echo ""
+                  echo "=== File size ==="
+                  ls -lh ${{ github.event.repository.name }}.yml
+
+            - name: Upload config as artifact
+              uses: actions/upload-artifact@v4
+              with:
+                  name: gatus-config-${{ github.event.repository.name }}
+                  path: ${{ github.event.repository.name }}.yml
+                  retention-days: 30

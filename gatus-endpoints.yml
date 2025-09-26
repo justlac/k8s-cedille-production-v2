@@ -1,0 +1,192 @@
+'# Configuration générée automatiquement': Généré le 2025-09-26T13:11:06.982772
+endpoints:
+- name: acets-prod
+  url: https://acets.prodv2.cedille.club
+  interval: 5m
+  conditions:
+  - '[STATUS] == 200'
+  - '[RESPONSE_TIME] < 3000'
+  alerts:
+  - type: discord
+    failure-threshold: 3
+    success-threshold: 2
+- name: aeroets-prod
+  url: https://aeroets.prodv2.cedille.club
+  interval: 5m
+  conditions:
+  - '[STATUS] == 200'
+  - '[RESPONSE_TIME] < 3000'
+  alerts:
+  - type: discord
+    failure-threshold: 3
+    success-threshold: 2
+- name: atelier
+  url: https://atelier.crabe.cedille.club
+  interval: 5m
+  conditions:
+  - '[STATUS] == 200'
+  - '[RESPONSE_TIME] < 3000'
+  alerts:
+  - type: discord
+    failure-threshold: 3
+    success-threshold: 2
+- name: calidum-rotae-prod
+  url: https://calidum-rotae.prodv2.cedille.club
+  interval: 5m
+  conditions:
+  - '[STATUS] == 200'
+  - '[RESPONSE_TIME] < 3000'
+  alerts:
+  - type: discord
+    failure-threshold: 3
+    success-threshold: 2
+- name: campusparent-prod
+  url: https://campusparent.prodv2.cedille.club
+  interval: 5m
+  conditions:
+  - '[STATUS] == 200'
+  - '[RESPONSE_TIME] < 3000'
+  alerts:
+  - type: discord
+    failure-threshold: 3
+    success-threshold: 2
+- name: cedille
+  url: https://cedille.etsmtl.ca
+  interval: 5m
+  conditions:
+  - '[STATUS] == 200'
+  - '[RESPONSE_TIME] < 3000'
+  alerts:
+  - type: discord
+    failure-threshold: 3
+    success-threshold: 2
+- name: cedille-prod
+  url: https://cedille.prodv2.cedille.club
+  interval: 5m
+  conditions:
+  - '[STATUS] == 200'
+  - '[RESPONSE_TIME] < 3000'
+  alerts:
+  - type: discord
+    failure-threshold: 3
+    success-threshold: 2
+- name: conjure
+  url: https://conjure.etsmtl.ca
+  interval: 5m
+  conditions:
+  - '[STATUS] == 200'
+  - '[RESPONSE_TIME] < 3000'
+  alerts:
+  - type: discord
+    failure-threshold: 3
+    success-threshold: 2
+- name: dronolab
+  url: https://dronolab.etsmtl.ca
+  interval: 5m
+  conditions:
+  - '[STATUS] == 200'
+  - '[RESPONSE_TIME] < 3000'
+  alerts:
+  - type: discord
+    failure-threshold: 3
+    success-threshold: 2
+- name: hercule-prod
+  url: https://hercule.prodv2.cedille.club
+  interval: 5m
+  conditions:
+  - '[STATUS] == 200'
+  - '[RESPONSE_TIME] < 3000'
+  alerts:
+  - type: discord
+    failure-threshold: 3
+    success-threshold: 2
+- name: integrale
+  url: https://integrale.etsmtl.ca
+  interval: 5m
+  conditions:
+  - '[STATUS] == 200'
+  - '[RESPONSE_TIME] < 3000'
+  alerts:
+  - type: discord
+    failure-threshold: 3
+    success-threshold: 2
+- name: markets-prod
+  url: https://markets.prodv2.cedille.club
+  interval: 5m
+  conditions:
+  - '[STATUS] == 200'
+  - '[RESPONSE_TIME] < 3000'
+  alerts:
+  - type: discord
+    failure-threshold: 3
+    success-threshold: 2
+- name: n8n-prod
+  url: https://n8n.prodv2.cedille.club
+  interval: 5m
+  conditions:
+  - '[STATUS] == 200'
+  - '[RESPONSE_TIME] < 3000'
+  alerts:
+  - type: discord
+    failure-threshold: 3
+    success-threshold: 2
+- name: raconteurs
+  url: https://raconteurs.etsmtl.ca
+  interval: 5m
+  conditions:
+  - '[STATUS] == 200'
+  - '[RESPONSE_TIME] < 3000'
+  alerts:
+  - type: discord
+    failure-threshold: 3
+    success-threshold: 2
+- name: saveursdegenie
+  url: https://saveursdegenie.etsmtl.ca
+  interval: 5m
+  conditions:
+  - '[STATUS] == 200'
+  - '[RESPONSE_TIME] < 3000'
+  alerts:
+  - type: discord
+    failure-threshold: 3
+    success-threshold: 2
+- name: synapsets
+  url: https://synapsets.etsmtl.ca
+  interval: 5m
+  conditions:
+  - '[STATUS] == 200'
+  - '[RESPONSE_TIME] < 3000'
+  alerts:
+  - type: discord
+    failure-threshold: 3
+    success-threshold: 2
+- name: trema-prod
+  url: https://trema.prodv2.cedille.club
+  interval: 5m
+  conditions:
+  - '[STATUS] == 200'
+  - '[RESPONSE_TIME] < 3000'
+  alerts:
+  - type: discord
+    failure-threshold: 3
+    success-threshold: 2
+- name: wiki
+  url: https://wiki.cedille.club
+  interval: 5m
+  conditions:
+  - '[STATUS] == 200'
+  - '[RESPONSE_TIME] < 3000'
+  alerts:
+  - type: discord
+    failure-threshold: 3
+    success-threshold: 2
+- name: wiki-prod
+  url: https://wiki.prodv2.cedille.club
+  interval: 5m
+  conditions:
+  - '[STATUS] == 200'
+  - '[RESPONSE_TIME] < 3000'
+  alerts:
+  - type: discord
+    failure-threshold: 3
+    success-threshold: 2
