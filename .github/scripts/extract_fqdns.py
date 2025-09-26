@@ -26,7 +26,17 @@ def find_fqdn_in_yaml(file_path):
             documents = yaml.safe_load_all(file)
             for doc in documents:
                 if doc:  # Ignorer les documents vides
-                    fqdns.extend(extract_fqdn_recursive(doc))
+                    # Contexte: priorité plus élevée pour ingress et kustomization
+                    is_ingress_context = "ingress.yaml" in str(file_path).lower()
+                    is_kustomization_context = (
+                        "kustomization.yaml" in str(file_path).lower()
+                    )
+
+                    fqdns.extend(
+                        extract_fqdn_recursive(
+                            doc, is_ingress_context, is_kustomization_context
+                        )
+                    )
     except Exception as e:
         print(f"Erreur lors de la lecture de {file_path}: {e}")
 
@@ -35,18 +45,19 @@ def find_fqdn_in_yaml(file_path):
 
 def is_valid_fqdn(fqdn):
     """
-    Vérifie si un FQDN est valide pour la surveillance Cedille (cedille.club, etsmtl.ca)
+    Vérifie si un FQDN est valide pour la surveillance (tout domaine légitime avec Ingress)
     """
     # Exclure les adresses email (contiennent @)
     if "@" in fqdn:
         return False
 
-    # Accepter seulement les domaines Cedille et ETS
-    valid_domains = [
-        "cedille.club",
-        "etsmtl.ca",
-    ]
+    # Exclure les URLs de registres Docker
+    docker_registries = ["ghcr.io", "docker.io", "registry.k8s.io", "quay.io"]
+    for registry in docker_registries:
+        if fqdn.startswith(registry):
+            return False
 
+    # Patterns invalides à exclure
     invalid_patterns = [
         "example.com",
         "example.local",
@@ -65,16 +76,6 @@ def is_valid_fqdn(fqdn):
         if pattern in fqdn_lower:
             return False
 
-    # Vérifier si c'est un domaine valide pour Cedille
-    fqdn_valid = False
-    for domain in valid_domains:
-        if fqdn_lower.endswith(domain):
-            fqdn_valid = True
-            break
-
-    if not fqdn_valid:
-        return False
-
     # Vérifier si c'est un vrai domaine (contient au moins un point et pas de variables Helm/Kubernetes)
     if (
         "." not in fqdn
@@ -85,10 +86,14 @@ def is_valid_fqdn(fqdn):
     ):
         return False
 
+    # Si c'est dans un fichier ingress.yaml ou kustomization.yaml, c'est probablement valide
+    # Tous les domaines avec une configuration Ingress sont des endpoints web légitimes
     return True
 
 
-def extract_fqdn_recursive(obj):
+def extract_fqdn_recursive(
+    obj, is_ingress_context=False, is_kustomization_context=False
+):
     """
     Recherche récursivement les clés contenant des FQDNs dans un objet YAML
     Cherche: 'host', 'hosts', 'dnsNames', 'commonName', 'value' (pour kustomization patches)
@@ -116,7 +121,7 @@ def extract_fqdn_recursive(obj):
                     ):
                         fqdns.append(item)
             # Pour les kustomization files, chercher dans les patches avec 'value'
-            elif key == "value" and isinstance(value, str):
+            elif key == "value" and isinstance(value, str) and is_kustomization_context:
                 if (
                     "." in value
                     and not value.startswith("http")
@@ -124,7 +129,7 @@ def extract_fqdn_recursive(obj):
                 ):
                     fqdns.append(value)
             # Pour les kustomization files, chercher dans les patches inline (patch: |-)
-            elif key == "patch" and isinstance(value, str):
+            elif key == "patch" and isinstance(value, str) and is_kustomization_context:
                 # Parser les lignes du patch pour trouver les lignes "value: ..."
                 for line in value.split("\n"):
                     line = line.strip()
@@ -142,10 +147,18 @@ def extract_fqdn_recursive(obj):
                 pass
             else:
                 # Continuer la recherche récursive
-                fqdns.extend(extract_fqdn_recursive(value))
+                fqdns.extend(
+                    extract_fqdn_recursive(
+                        value, is_ingress_context, is_kustomization_context
+                    )
+                )
     elif isinstance(obj, list):
         for item in obj:
-            fqdns.extend(extract_fqdn_recursive(item))
+            fqdns.extend(
+                extract_fqdn_recursive(
+                    item, is_ingress_context, is_kustomization_context
+                )
+            )
 
     return fqdns
 
