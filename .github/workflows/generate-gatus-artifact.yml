@@ -4,7 +4,7 @@ on:
     push:
         branches: ["main", "master"]
         paths:
-            - "apps/**" # Only run if app configs change
+            - "apps/**"
 
 jobs:
     generate-config-artifact:
@@ -13,7 +13,7 @@ jobs:
         steps:
             - name: Checkout repository
               uses: actions/checkout@v4
-s
+
             - name: Set up Python 3.11
               uses: actions/setup-python@v4
               with:
@@ -25,26 +25,39 @@ s
             - name: Generate Gatus endpoints snippet
               run: python3 .github/scripts/extract_fqdns.py
 
-            - name: Rename snippet file for uniqueness
-              run: mv gatus-endpoints.yml ${{ github.event.repository.name }}.yml
-
             - name: Add metadata to config file
               run: |
-                  echo "# Source: ${{ github.repository }}" >> ${{ github.event.repository.name }}.yml
-                  echo "# Generated: $(date -u +%Y-%m-%dT%H:%M:%SZ)" >> ${{ github.event.repository.name }}.yml
-                  echo "# Commit: ${{ github.sha }}" >> ${{ github.event.repository.name }}.yml
+                  echo "# Source: ${{ github.repository }}" >> gatus-endpoints.yml
+                  echo "# Generated: $(date -u +%Y-%m-%dT%H:%M:%SZ)" >> gatus-endpoints.yml
+                  echo "# Commit: ${{ github.sha }}" >> gatus-endpoints.yml
+                  echo "# Run ID: ${{ github.run_id }}" >> gatus-endpoints.yml
 
             - name: Display generated config
               run: |
-                  echo "=== Generated ${{ github.event.repository.name }}.yml ==="
-                  cat ${{ github.event.repository.name }}.yml
+                  echo "=== Generated gatus-endpoints.yml ==="
+                  cat gatus-endpoints.yml
                   echo ""
                   echo "=== File size ==="
-                  ls -lh ${{ github.event.repository.name }}.yml
+                  ls -lh gatus-endpoints.yml
 
             - name: Upload config as artifact
               uses: actions/upload-artifact@v4
               with:
                   name: gatus-config-${{ github.event.repository.name }}
-                  path: ${{ github.event.repository.name }}.yml
+                  path: gatus-endpoints.yml
                   retention-days: 30
+
+            - name: Trigger master pipeline
+              if: success()
+              uses: peter-evans/repository-dispatch@v3
+              with:
+                  token: ${{ secrets.GITHUB_TOKEN }}
+                  repository: ${{ github.repository_owner }}/k8s-cloud
+                  event-type: gatus-config-updated
+                  client-payload: |
+                      {
+                        "source_repo": "${{ github.repository }}",
+                        "artifact_name": "gatus-config-${{ github.event.repository.name }}",
+                        "commit": "${{ github.sha }}",
+                        "run_id": "${{ github.run_id }}"
+                      }
