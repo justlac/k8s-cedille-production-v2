@@ -50,15 +50,17 @@ jobs:
 
             - name: Trigger master pipeline
               if: success()
-              uses: peter-evans/repository-dispatch@v2
-              with:
-                  token: ${{ secrets.PAT_TOKEN }}
-                  repository: ${{ github.repository_owner }}/k8s-cloud
-                  event-type: gatus-config-updated
-                  client-payload: |
-                      {
+              run: |
+                  curl -X POST \
+                    -H "Authorization: token ${{ secrets.PAT_TOKEN }}" \
+                    -H "Accept: application/vnd.github.v3+json" \
+                    https://api.github.com/repos/${{ github.repository_owner }}/k8s-cloud/dispatches \
+                    -d '{
+                      "event_type": "gatus-config-updated",
+                      "client_payload": {
                         "source_repo": "${{ github.repository }}",
                         "artifact_name": "gatus-config-${{ github.event.repository.name }}",
                         "commit": "${{ github.sha }}",
                         "run_id": "${{ github.run_id }}"
                       }
+                    }'
