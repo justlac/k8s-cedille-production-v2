@@ -51,7 +51,7 @@ jobs:
               if: success()
               uses: peter-evans/repository-dispatch@v3
               with:
-                  token: ${{ secrets.GITHUB_TOKEN }}
+                  token: ${{ secrets.PAT_TOKEN }}
                   repository: ${{ github.repository_owner }}/k8s-cloud
                   event-type: gatus-config-updated
                   client-payload: |
