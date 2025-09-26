@@ -1,4 +1,4 @@
-'# Configuration générée automatiquement': Généré le 2025-09-26T13:51:45.352394
+'# Configuration générée automatiquement': Généré le 2025-09-26T14:55:28.761616
 endpoints:
 - name: acets-prod
   url: https://acets.prodv2.cedille.club
@@ -190,6 +190,3 @@ endpoints:
   - type: discord
     failure-threshold: 3
     success-threshold: 2
-# Source: justlac/k8s-cedille-production-v2
-# Generated: 2025-09-26T13:59:52Z
-# Commit: abc123
